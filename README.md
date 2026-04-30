@@ -19,4 +19,4 @@ Proyecto de consola que permite gestionar clientes usando un archivo JSON como b
 ## Cómo ejecutar
 
 ```bash
-python sistema_clientes_json.py
+python main.py
