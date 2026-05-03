@@ -6,7 +6,7 @@ def cargar_clientes():
             clientes = json.load(f)
             return clientes
         
-    except FileNotFoundError:
+    except (FileNotFoundError, json.JSONDecodeError):
         clientes = []
         return clientes
     
@@ -39,8 +39,12 @@ def pedir_datos(clientes):
     return nuevo_cliente
 
 def mostrar_clientes(clientes):
+    if not clientes:
+        print("No hay clientes registrados")
+        return
+
     for c in clientes:
-        print(c)
+        print(f"{c['id']} - {c['nombre']} - {c['edad']} años - {c['ciudad']}")
 
 def agregar_cliente(clientes, nuevo_cliente):
     if any(c.get("id") == nuevo_cliente["id"] for c in clientes):
@@ -62,23 +66,16 @@ def pedir_id():
 def buscar_cliente(clientes, cliente_id):
     return next((c for c in clientes if c.get("id") == cliente_id), None)
 
-def eliminar_cliente(clientes):
-
-    while True:
-        try:
-            eliminar_cliente = int(input("Ingrese el ID del cliente que desea eliminar: "))
-            break
-        except ValueError:
-            print("Error: Ingresa solo numeros.")
+def eliminar_cliente(clientes, cliente_id):
 
     for i, c in enumerate(clientes):
-        if eliminar_cliente == c['id']:
+        if cliente_id == c['id']:
             del clientes[i]
             return "Cliente eliminado con exito!"
         
     return None
 
-def modificar_cliente(clientes, id):
+def modificar_cliente(clientes, cliente_id):
     
     if id not in [c['id'] for c in clientes]:
         return "Cliente inexistente"
@@ -86,7 +83,7 @@ def modificar_cliente(clientes, id):
         nombre_nuevo = input("Ingrese el nombre nuevo: ").strip().title()
 
     for c in clientes:
-        if id == c['id']:
+        if cliente_id == c['id']:
             c['nombre'] = nombre_nuevo
             return "Cambio de nombre exitoso! "
         
@@ -148,8 +145,8 @@ def main():
             print(mensaje)
 
         elif opcion == 3:
-            id = pedir_id()
-            cliente = buscar_cliente(clientes,id)
+            cliente_id = pedir_id()
+            cliente = buscar_cliente(clientes, cliente_id)
         
             if cliente:
                 print(cliente)
@@ -157,7 +154,8 @@ def main():
                 print("No se encontro el cliente")
 
         elif opcion == 4:
-            resultado = eliminar_cliente(clientes)
+            cliente_id = pedir_id()
+            resultado = eliminar_cliente(clientes, cliente_id)
 
             if resultado:
                 print(resultado)
@@ -185,6 +183,7 @@ def main():
     mensaje_despedida()
 
 main()
+
 
 
 
