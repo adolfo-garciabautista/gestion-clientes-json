@@ -77,7 +77,7 @@ def eliminar_cliente(clientes, cliente_id):
 
 def modificar_cliente(clientes, cliente_id):
     
-    if id not in [c['id'] for c in clientes]:
+    if cliente_id not in [c['id'] for c in clientes]:
         return "Cliente inexistente"
     else:
         nombre_nuevo = input("Ingrese el nombre nuevo: ").strip().title()
