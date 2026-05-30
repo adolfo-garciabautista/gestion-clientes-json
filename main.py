@@ -15,7 +15,7 @@ def guardar_clientes(clientes):
         json.dump(clientes, f, indent=4)
 
 def pedir_datos(clientes):
-    id = max([c["id"] for c in clientes], default=0) +1
+    cliente_id = max([c["id"] for c in clientes], default=0) +1
 
     nombre = input("Ingrese el nombre: ").strip().title()
     
@@ -30,7 +30,7 @@ def pedir_datos(clientes):
     ciudad = input("Ingrese la ciudad: ").strip().title()
 
     nuevo_cliente = {
-        "id" : id,
+        "id" : cliente_id,
         "nombre" : nombre,
         "edad" : edad,
         "ciudad" : ciudad
